@@ -1,0 +1,25 @@
+---
+title: "p8105_hw2_jv2629"
+author: "Jaclyn Verity - jv2629"
+date: "September 25, 2018"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+# Problem 1
+
+## Read and clean NYC Transit Data
+
+```{r read NYC}
+NYC_data = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+  janitor::clean_names()
+```
+
+## Select and parse data
+
+```{r}
+NYC_selected = select(NYC_data, line, station_name, station_latitude, station_longitude, route1:route11, entry, entrance_type, vending, ada)
