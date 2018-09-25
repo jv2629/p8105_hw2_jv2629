@@ -12,14 +12,41 @@ library(tidyverse)
 
 # Problem 1
 
-## Read and clean NYC Transit Data
+## Read and select NYC Transit Data
 
 ```{r read NYC}
-NYC_data = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
-  janitor::clean_names()
+NYC_data = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv",
+  col_types = cols_only(
+    `Line` = col_character(),
+    `Station Name` = col_character(),
+    `Station Latitude` = col_double(),
+    `Station Longitude` = col_double(),
+    `Route1` = col_factor(NULL),
+    `Route2` = col_factor(NULL),
+    `Route3` = col_factor(NULL),
+    `Route4` = col_factor(NULL),
+    `Route5` = col_factor(NULL),
+    `Route6` = col_factor(NULL),
+    `Route7` = col_factor(NULL),
+    `Route8` = col_factor(NULL),
+    `Route9` = col_factor(NULL),
+    `Route10` = col_factor(NULL),
+    `Route11` = col_factor(NULL),
+    `Entry` = col_factor(NULL),
+    `Entrance Type` = col_factor(NULL),
+    `Vending` = col_factor(NULL),
+    `ADA` = col_logical()
+  ))
 ```
 
-## Select and parse data
+## Clean NYC Data
+```{r clean}
+NYC_data = NYC_data %>% 
+  janitor::clean_names() 
+```
 
+## Recode entry variable
 ```{r}
-NYC_selected = select(NYC_data, line, station_name, station_latitude, station_longitude, route1:route11, entry, entrance_type, vending, ada)
+recode_factor(NYC_data[["entry"]], YES = TRUE, NO = FALSE, .default = NULL)
+```
+
