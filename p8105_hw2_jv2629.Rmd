@@ -103,3 +103,10 @@ filter(NYC_route, route_name == "A", ada == "TRUE")
 
 In NYC, 60 stations serve the A train, of which 17 are ADA compliant. 
 
+# Problem 2
+
+**Reading in the Mr. Trash Wheel data set**
+```{r}
+
+```
+
