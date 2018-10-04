@@ -165,4 +165,31 @@ beh_risk = beh_risk %>%
   
 ```
 
+**Code to answer specific questions**
 
+State and location information in data set...
+```{r}
+unique_locations = beh_risk %>% 
+  distinct(county) %>% 
+  nrow()
+
+unique_states = beh_risk %>% 
+  distinct(state)
+
+beh_risk %>% 
+  count(state) %>% 
+  arrange(desc(n))
+  
+```
+
+There are `r unique_locations` unique locations in the data set. Every state and DC are represented in the data set. The state that is observed the most is New Jersey, with 146 observations. 
+
+**Response information...
+```{r}
+excellent_response = beh_risk %>% 
+  filter(year == 2002) %>% 
+  pull(excellent) %>% 
+  median(na.rm = TRUE)
+```
+
+The median of the Excellent response value is `r excellent_response`.
