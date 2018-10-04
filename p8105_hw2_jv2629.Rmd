@@ -105,8 +105,18 @@ In NYC, 60 stations serve the A train, of which 17 are ADA compliant.
 
 # Problem 2
 
-**Reading in the Mr. Trash Wheel data set**
-```{r}
+**Reading in and cleaning the Mr. Trash Wheel data sheet**
+```{r mr._trash_wheel}
+library(readxl)
+mr_trash = 
+  read_excel("./data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N256", cell_cols = (1:14), col_names = TRUE) %>% 
+  janitor::clean_names() %>% 
+  round(weight_tons, 0) %>% 
+  as.integer(weight_tons)  %>% 
+  filter(dumpster != "NA")
+```
 
+```{r}
+precip16 = read_excel(".data/HealthyHarborWaterWheelTotals2017-9-26.xlsx", sheet = "2016 Precipitation", range = "A2:B14", col_names = TRUE)
 ```
 
