@@ -82,6 +82,7 @@ NYC_vending = NYC_data %>%
   filter(entry == "YES")
 
 NYC_vending
+  
 
 ```
 
@@ -110,13 +111,29 @@ In NYC, 60 stations serve the A train, of which 17 are ADA compliant.
 library(readxl)
 mr_trash = 
   read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N256", col_names = TRUE) %>% 
-  janitor::clean_names()
-```
-
-```{r}
-mr_trash = mr_trash %>% 
+  janitor::clean_names() %>% 
   mutate(sports_balls =  as.integer(sports_balls)) %>% 
   filter(dumpster != "NA")
 ```
 
+**Read and clean precipitation 2016 and 2017**
+```{r}
+precip_16 = 
+  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = "2016 Precipitation", range = "A2:B14", col_names = TRUE) %>% 
+  mutate(year = "2016")
 
+precip_17 =
+  read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = "2017 Precipitation", range = "A2:B14", col_names = TRUE) %>% 
+  mutate(year = "2017")
+
+precip_total =
+  bind_rows(precip_16, precip_17) %>% 
+  janitor::clean_names() %>% 
+  mutate(month = month.name[month])
+```
+
+The Mr. Trash Wheel data set contains information on the dumpsters and what they are collecting in the Baltimore Harbor. It includes information on the month and day the dumpster was evaluated, the weight and volume of trash collected, and different common categories of trash. It contains `r nrow(mr_trash)` observations and a total of `r ncol(mr_trash)` variables. 
+
+The precipitation data set contains total precipitation in inches for each month in 2016 and 2017. It contains `r nrow(precip_total)` observations and `r ncol(precip_total)` variables. 
+
+The total precipitation for 2017 is `r sum(precip_17[["Total"]])`. The median number of sports balls in a dumpster in 2016 is `r median(mr_trash[["sports_balls"]])`. 
