@@ -78,15 +78,18 @@ There are 84 metro stations in this data set that are ADA compliant.
 **Creating a data set that filters through vending and allowing entry.**
 ```{r manipulation_3}
 NYC_vending = NYC_data %>% 
-  filter(vending == "NO") %>% 
+  filter(vending == "NO")
+
+NYC_entry = NYC_vending %>% 
   filter(entry == "YES")
 
 NYC_vending
-  
+
+NYC_entry
 
 ```
 
-In NYC, `r 69/1868` metro entrances/exits without vending allow entry. 
+In NYC, `r 69/183` metro entrances/exits without vending allow entry. 
 
 
 
@@ -112,6 +115,7 @@ library(readxl)
 mr_trash = 
   read_excel("./data/HealthyHarborWaterWheelTotals2018-7-28.xlsx", sheet = "Mr. Trash Wheel", range = "A2:N256", col_names = TRUE) %>% 
   janitor::clean_names() %>% 
+  mutate(round(sports_balls)) %>% 
   mutate(sports_balls =  as.integer(sports_balls)) %>% 
   filter(dumpster != "NA")
 ```
@@ -190,6 +194,18 @@ excellent_response = beh_risk %>%
   filter(year == 2002) %>% 
   pull(excellent) %>% 
   median(na.rm = TRUE)
+
+excellent_df = beh_risk %>% 
+  filter(year == 2002)
+
+ggplot(excellent_df, aes(x = excellent)) + 
+  geom_histogram()
+
+excellent_scatter = beh_risk %>% 
+  filter(county == "NY - New York County" | county == "NY - Queens County")
+
+ggplot(excellent_scatter, aes(x = year, y = excellent)) + 
+  geom_point(aes(color = county))
 ```
 
 The median of the Excellent response value is `r excellent_response`.
