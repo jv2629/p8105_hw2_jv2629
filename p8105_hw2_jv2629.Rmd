@@ -14,7 +14,7 @@ library(tidyverse)
 
 ## NYC Transit Data
 
-**Read in and select desired variables.**
+**Read in and select desired variables**
 ```{r read NYC}
 NYC_data = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv",
   col_types = cols_only(
@@ -46,7 +46,7 @@ NYC_data = NYC_data %>%
   janitor::clean_names() 
 ```
 
-**Recoding entry variable.**
+**Recoding entry variable**
 ```{r recode, results= FALSE}
 recode_factor(NYC_data[["entry"]], YES = TRUE, NO = FALSE, .default = NULL)
 ```
@@ -55,7 +55,7 @@ This data set, entitled NYC_data, contains information on NYC Metro Stations ent
 
 ## Manipulating Data
 
-**Creating a data set that consists of only the NYC stations, not all entrances and exits.** 
+**Data set for NYC stations** 
 ```{r manipulation_1}
 NYC_stations = distinct(NYC_data, line, station_name, .keep_all =  TRUE)
 
@@ -65,7 +65,7 @@ NYC_stations
 There are 465 unique metro stations in this data set. 
 
 
-**Creating a data set for ADA compliance.** 
+**Data set for ADA compliance** 
 ```{r manipulation_2}
 NYC_ada = filter(NYC_stations, ada == TRUE)
 
@@ -75,7 +75,7 @@ NYC_ada
 There are 84 metro stations in this data set that are ADA compliant. 
 
 
-**Creating a data set that filters through vending and allowing entry.**
+**Data set for vending and entry**
 ```{r manipulation_3}
 NYC_vending = NYC_data %>% 
   filter(vending == "NO")
@@ -93,7 +93,7 @@ In NYC, `r 69/183` metro entrances/exits without vending allow entry.
 
 
 
-**Creating a data set that rearranges how routes are displayed.**
+**Data set for routes**
 ```{r gather}
 NYC_route = gather(NYC_stations, key = route_number, value = route_name, route1:route11) 
 
@@ -109,7 +109,7 @@ In NYC, 60 stations serve the A train, of which 17 are ADA compliant.
 
 # Problem 2
 
-**Reading in and cleaning the Mr. Trash Wheel data sheet**
+**Read in and clean the Mr. Trash Wheel data sheet**
 ```{r mr._trash_wheel}
 library(readxl)
 mr_trash = 
@@ -160,7 +160,7 @@ beh_risk = brfss_smart2010 %>%
  rename(state = locationabbr, county = locationdesc)
 ```
 
-**Taking base data set and manipulating it for analysis**
+**Manipulate base data set for analysis**
 ```{r}
 beh_risk = beh_risk %>% 
   spread(key = response, value = data_value) %>% 
@@ -188,7 +188,7 @@ beh_risk %>%
 
 There are `r unique_locations` unique locations in the data set. Every state and DC are represented in the data set. The state that is observed the most is New Jersey, with 146 observations. 
 
-**Response information...
+**Response information**
 ```{r}
 excellent_response = beh_risk %>% 
   filter(year == 2002) %>% 
